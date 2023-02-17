@@ -2,7 +2,7 @@ name := "quill"
 
 version := "1.0"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.17"
 
 libraryDependencies ++= {
 
@@ -13,10 +13,11 @@ libraryDependencies ++= {
     "io.getquill"               %% "quill-cassandra"        % "3.4.10",
     "org.slf4j"                 % "slf4j-api"               % "1.7.5",
     "ch.qos.logback"            % "logback-classic"         % "1.0.9",
-    "org.scalatest"             % "scalatest_2.11"          % "2.2.1"               % "test"
+    "org.scalatest"             % "scalatest_2.11"          % "2.2.1"               % "test",
+    "org.scalameta"             %% "munit"                  % "0.7.26"              % "test",
   )
 }
 
 resolvers ++= Seq(
-  "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
+  "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/"
 )
