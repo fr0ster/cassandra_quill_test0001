@@ -6,8 +6,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object DocumentStore extends CassandraCluster {
-
-  val ctx = new CassandraAsyncContext(SnakeCase, cassandraCluster, cassandraKeyspace, preparedStatementCacheSize) with UdtMapper {
+  val ctx = new CassandraAsyncContext(SnakeCase, cqlSession, preparedStatementCacheSize) with UdtMapper {
     var cluster = cassandraCluster
     var keySpace = cassandraKeyspace
   }

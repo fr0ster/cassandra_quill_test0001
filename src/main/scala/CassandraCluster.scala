@@ -1,5 +1,6 @@
 import akka.event.slf4j.SLF4JLogging
 import com.datastax.driver.core.{Cluster, _}
+import com.datastax.oss.driver.api.core.CqlSession
 
 trait CassandraCluster extends CassandraConf with SLF4JLogging {
   lazy val poolingOptions: PoolingOptions = {
@@ -18,4 +19,6 @@ trait CassandraCluster extends CassandraConf with SLF4JLogging {
   }
 
   lazy implicit val session: Session = cassandraCluster.connect()
+
+  lazy implicit val cqlSession: CqlSession = CqlSession.builder().withKeyspace(cassandraKeyspace).build()
 }
