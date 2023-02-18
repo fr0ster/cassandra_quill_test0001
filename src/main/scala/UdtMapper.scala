@@ -1,7 +1,8 @@
 import com.datastax.driver.core.{Cluster, UDTValue}
 import io.getquill.context.cassandra.CassandraSessionContext
 
-import scala.collection.JavaConverters._
+// import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 trait UdtMapper {
 
@@ -18,19 +19,19 @@ trait UdtMapper {
     })
   }
 
-  // implicit val udeEncoder: Encoder[Set[Signature]] = {
-  //   encoder((index, signatures, row) => {
-  //     val sigType = cluster.getMetadata.getKeyspace(keySpace).getUserType("signature")
-  //     val sigsUdt = signatures.map { signature =>
-  //       // set signature data
-  //       val uv = sigType.newValue()
-  //       uv.setString("signer", signature.signer)
-  //       uv.setString("comment", signature.signer)
-  //       uv.setLong("timestamp", signature.timestamp)
-  //       uv
-  //     }.asJava
-  //     row.setSet(index, sigsUdt)
-  //   })
-  // }
+  implicit val udeEncoder: Encoder[Set[Signature]] = {
+    encoder((index, signatures, row, session) => {
+      val sigType = cluster.getMetadata.getKeyspace(keySpace).getUserType("signature")
+      val sigsUdt = signatures.map { signature =>
+        // set signature data
+        val uv = sigType.newValue()
+        uv.setString("signer", signature.signer)
+        uv.setString("comment", signature.signer)
+        uv.setLong("timestamp", signature.timestamp)
+        uv
+      }.asJava
+      row.setSet(index, sigsUdt, classOf[UDTValue])
+    })
+  }
 
 }
